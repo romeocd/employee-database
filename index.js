@@ -75,7 +75,8 @@ function beginPrompt () {
                 break;
             case 'Exit':
                 console.log('Goodbye')
-                Connection.end();
+                db.end();
+                break;
         }
     });
 }
