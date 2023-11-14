@@ -205,8 +205,79 @@ function addRole() {
     });
 }
 //function to add an employee
-function addEmployee () {
+function addEmployee() {
+    // Query to fetch roles
+    const rolesQuery = 'SELECT id, title FROM role';
 
+    // Query to fetch managers (employees who can be managers)
+    const managersQuery = 'SELECT id, CONCAT(first_name, " ", last_name) AS manager_name FROM employee';
+
+    db.query(rolesQuery, (err, roles) => {
+        if (err) {
+            console.error('Error fetching roles:', err);
+            beginPrompt();
+            return;
+        }
+
+        db.query(managersQuery, (err, managers) => {
+            if (err) {
+                console.error('Error fetching managers:', err);
+                beginPrompt();
+                return;
+            }
+
+            inquirer
+                .prompt([
+                    {
+                        type: 'input',
+                        name: 'first_name',
+                        message: "Enter the employee's first name:",
+                        validate: function (input) {
+                            if (!input) {
+                                return "Please enter the employee's first name.";
+                            }
+                            return true;
+                        }
+                    },
+                    {
+                        type: 'input',
+                        name: 'last_name',
+                        message: "Enter the employee's last name:",
+                        validate: function (input) {
+                            if (!input) {
+                                return "Please enter the employee's last name.";
+                            }
+                            return true;
+                        }
+                    },
+                    {
+                        type: 'list',
+                        name: 'role',
+                        message: "Select the employee's role:",
+                        choices: roles.map(role => ({ name: role.title, value: role.id }))
+                    },
+                    {
+                        type: 'list',
+                        name: 'manager',
+                        message: "Select the employee's manager:",
+                        choices: [{ name: 'None', value: null }].concat(managers.map(manager => ({ name: manager.manager_name, value: manager.id })))
+                    }
+                ])
+                .then((answers) => {
+                    // SQL INSERT query to add the new employee
+                    const query = 'INSERT INTO employee (first_name, last_name, role_id, manager_id) VALUES (?, ?, ?, ?)';
+                    db.query(query, [answers.first_name, answers.last_name, answers.role, answers.manager], (err, result) => {
+                        if (err) {
+                            console.error('Error adding employee:', err);
+                        } else {
+                            console.log(`Employee '${answers.first_name} ${answers.last_name}' added successfully.`);
+                        }
+                        // Restart prompts after completion
+                        beginPrompt();
+                    });
+                });
+        });
+    });
 }
 //function to update employee role
 function updateEmployeeRole () {
