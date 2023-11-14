@@ -92,7 +92,7 @@ function viewAllDepartments () {
 
 //function to view all roles
 function viewAllRoles () {
-
+    
 }
 //function to view all employees
 function viewAllEmployees () {
