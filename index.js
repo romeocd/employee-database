@@ -280,6 +280,55 @@ function addEmployee() {
     });
 }
 //function to update employee role
-function updateEmployeeRole () {
-    
+function updateEmployeeRole() {
+    // Query to fetch employees
+    const employeesQuery = 'SELECT id, CONCAT(first_name, " ", last_name) AS employee_name FROM employee';
+
+    // Query to fetch roles
+    const rolesQuery = 'SELECT id, title FROM role';
+
+    db.query(employeesQuery, (err, employees) => {
+        if (err) {
+            console.error('Error fetching employees:', err);
+            beginPrompt();
+            return;
+        }
+
+        db.query(rolesQuery, (err, roles) => {
+            if (err) {
+                console.error('Error fetching roles:', err);
+                beginPrompt();
+                return;
+            }
+
+            inquirer
+                .prompt([
+                    {
+                        type: 'list',
+                        name: 'employee',
+                        message: 'Select the employee to update:',
+                        choices: employees.map(emp => ({ name: emp.employee_name, value: emp.id }))
+                    },
+                    {
+                        type: 'list',
+                        name: 'newRole',
+                        message: 'Select the new role for the employee:',
+                        choices: roles.map(role => ({ name: role.title, value: role.id }))
+                    }
+                ])
+                .then((answers) => {
+                    // SQL UPDATE query to update employee's role
+                    const query = 'UPDATE employee SET role_id = ? WHERE id = ?';
+                    db.query(query, [answers.newRole, answers.employee], (err, result) => {
+                        if (err) {
+                            console.error('Error updating employee role:', err);
+                        } else {
+                            console.log('Employee role updated successfully.');
+                        }
+                        // Restart prompts after completion
+                        beginPrompt();
+                    });
+                });
+        });
+    });
 }
