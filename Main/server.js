@@ -12,6 +12,10 @@ const db = mysql.createConnection(
       user: 'root',
       password: 'bootcamp2023',
       database: 'employees_db'
-    },
-    console.log(`Connected to the '' database.`)
-  );
+});
+
+//Check for database connection
+db.connect((err) => {
+    if (err) throw err;
+    console.log(`Connected to the 'employees_db database.`);
+})
