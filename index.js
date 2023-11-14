@@ -1,6 +1,6 @@
 const inquirer = require('inquirer');
 //Console Table
-require('console.table');
+const cTable = require('console.table');
 
 // Import and require mysql2
 const mysql = require('mysql2');
