@@ -96,7 +96,14 @@ function viewAllDepartments () {
 
 //function to view all roles
 function viewAllRoles () {
-
+    const query = 'SELECT * FROM role';
+    db.query(query, (err, results) => {
+        if (err) throw err;
+    //Display results using console.table
+    console.table('All Roles', results);
+    //restarts prompts after completion
+    beginPrompt();
+    })
 }
 //function to view all employees
 function viewAllEmployees () {
