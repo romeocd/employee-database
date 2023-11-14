@@ -83,12 +83,12 @@ function beginPrompt () {
 
 //Function to view all departments
 function viewAllDepartments () {
-    const query = 'SELECT * FROM department';
-    db.query(query, (err, results) => {
+    const query = `SELECT * FROM department`;
+    db.query(query, (err, department) => {
         if (err) throw err;
 
     //Display results using console.table
-    console.table('All Departments', results);
+    console.table(department);
 
     //restarts prompts after completion
     beginPrompt();
@@ -97,22 +97,22 @@ function viewAllDepartments () {
 
 //function to view all roles
 function viewAllRoles () {
-    const query = 'SELECT * FROM role';
-    db.query(query, (err, results) => {
+    const query = `SELECT * FROM role`;
+    db.query(query, (err, role) => {
         if (err) throw err;
     //Display results using console.table
-    console.table('All Roles', results);
+    console.table(role);
     //restarts prompts after completion
     beginPrompt();
     })
 }
 //function to view all employees
 function viewAllEmployees () {
-    const query = 'SELECT * FROM employee';
-    db.query(query, (err, results) => {
+    const query = `SELECT * FROM employee`;
+    db.query(query, (err, employee) => {
         if (err) throw err;
     //Display results using console.table
-    console.table('All Employees', results);
+    console.table(employee);
     //restarts prompts after completion
     beginPrompt();
     })
