@@ -89,3 +89,28 @@ function viewAllDepartments () {
     beginPrompt();
     });
 }
+
+//function to view all roles
+function viewAllRoles () {
+
+}
+//function to view all employees
+function viewAllEmployees () {
+
+}
+//function to add a department
+function addDepartment () {
+
+}
+//function to add a role
+function addRole () {
+
+}
+//function to add an employee
+function addEmployee () {
+
+}
+//function to update employee role
+function updateEmployeeRole () {
+    
+}
