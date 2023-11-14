@@ -119,7 +119,32 @@ function viewAllEmployees () {
 }
 //function to add a department
 function addDepartment () {
-
+    inquirer
+        .prompt([
+            {
+                type: 'input',
+                name: 'departmentName',
+                message: 'Enter the name of the department:',
+                validate: function (input) {
+                    if (!input) {
+                        return 'Please enter a department name.';
+                    }
+                    return true;
+                }
+            }
+        ])
+        .then((answer) => {
+            //SQL INSERT query to add new department
+            const query = 'INSERT INTO department (name) VALUES (?)';
+            db.query(query, answer.departmentName, (err, result) => {
+                if (err) {
+                    console.error('Error adding department:', err);
+                } else {
+                    console.log(`'${answer.departmentName}' has been added.`)
+                }
+                beginPrompt();
+            });
+        });
 }
 //function to add a role
 function addRole () {
