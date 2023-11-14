@@ -73,5 +73,19 @@ function beginPrompt () {
                 updateEmployeeRole();
                 break;
         }
-    })
+    });
+}
+
+//Function to view all departments
+function viewAllDepartments () {
+    const query = 'SELECT id, name FROM department';
+    db.query(query, (err, results) => {
+        if (err) throw err;
+
+    //Display results using console.table
+    console.table('All Departments', results);
+
+    //restarts prompts after completion
+    beginPrompt();
+    });
 }
