@@ -107,7 +107,14 @@ function viewAllRoles () {
 }
 //function to view all employees
 function viewAllEmployees () {
-
+    const query = 'SELECT * FROM employee';
+    db.query(query, (err, results) => {
+        if (err) throw err;
+    //Display results using console.table
+    console.table('All Employees', results);
+    //restarts prompts after completion
+    beginPrompt();
+    })
 }
 //function to add a department
 function addDepartment () {
