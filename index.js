@@ -147,8 +147,62 @@ function addDepartment () {
         });
 }
 //function to add a role
-function addRole () {
+function addRole() {
+    // Query to fetch department names
+    const departmentQuery = 'SELECT id, name FROM department';
 
+    db.query(departmentQuery, (err, departments) => {
+        if (err) {
+            console.error('Error fetching departments:', err);
+            beginPrompt();
+            return;
+        }
+
+        inquirer
+            .prompt([
+                {
+                    type: 'input',
+                    name: 'title',
+                    message: 'Enter the title of the role:',
+                    validate: function (input) {
+                        if (!input) {
+                            return 'Please enter a role title.';
+                        }
+                        return true;
+                    }
+                },
+                {
+                    type: 'input',
+                    name: 'salary',
+                    message: 'Enter the salary for this role:',
+                    validate: function (input) {
+                        if (!input || isNaN(input)) {
+                            return 'Please enter a valid salary.';
+                        }
+                        return true;
+                    }
+                },
+                {
+                    type: 'list',
+                    name: 'department',
+                    message: 'Select the department for this role:',
+                    choices: departments.map(dept => ({ name: dept.name, value: dept.id }))
+                }
+            ])
+            .then((answers) => {
+                // SQL INSERT query to add the new role
+                const query = 'INSERT INTO role (title, salary, department_id) VALUES (?, ?, ?)';
+                db.query(query, [answers.title, answers.salary, answers.department], (err, result) => {
+                    if (err) {
+                        console.error('Error adding role:', err);
+                    } else {
+                        console.log(`'${answers.title}' role added successfully.`);
+                    }
+                    // Restart prompts after completion
+                    beginPrompt();
+                });
+            });
+    });
 }
 //function to add an employee
 function addEmployee () {
