@@ -78,7 +78,7 @@ function beginPrompt () {
 
 //Function to view all departments
 function viewAllDepartments () {
-    const query = 'SELECT id, name FROM department';
+    const query = 'SELECT * FROM department';
     db.query(query, (err, results) => {
         if (err) throw err;
 
@@ -92,7 +92,7 @@ function viewAllDepartments () {
 
 //function to view all roles
 function viewAllRoles () {
-    
+
 }
 //function to view all employees
 function viewAllEmployees () {
