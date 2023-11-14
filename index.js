@@ -17,7 +17,7 @@ const db = mysql.createConnection(
 //Check for database connection
 db.connect((err) => {
     if (err) throw err;
-    console.log(`Connected to the 'employees_db database.`);
+    console.log(`Connected to the 'employees_db' database.`);
 
     //Begin the prompts after connecting to the database
     beginPrompt();
@@ -39,6 +39,7 @@ function beginPrompt () {
             'Add a Role',
             'Add an Employee',
             'Update Employee Role',
+            'Exit',
         ]
      }
     ])
@@ -72,6 +73,9 @@ function beginPrompt () {
                 //function to update employee role
                 updateEmployeeRole();
                 break;
+            case 'Exit':
+                console.log('Goodbye')
+                Connection.end();
         }
     });
 }
