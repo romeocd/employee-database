@@ -107,15 +107,35 @@ function viewAllRoles () {
     })
 }
 //function to view all employees
-function viewAllEmployees () {
-    const query = `SELECT * FROM employee`;
-    db.query(query, (err, employee) => {
+function viewAllEmployees() {
+    const query = `
+        SELECT 
+            e.id AS Employee_ID, 
+            e.first_name AS First_Name, 
+            e.last_name AS Last_Name, 
+            r.title AS Job_Title, 
+            d.name AS Department, 
+            r.salary AS Salary, 
+            CONCAT(m.first_name, ' ', m.last_name) AS Manager
+        FROM 
+            employee e
+        LEFT JOIN 
+            role r ON e.role_id = r.id
+        LEFT JOIN 
+            department d ON r.department_id = d.id
+        LEFT JOIN 
+            employee m ON e.manager_id = m.id
+    `;
+
+    db.query(query, (err, employees) => {
         if (err) throw err;
-    //Display results using console.table
-    console.table(employee);
-    //restarts prompts after completion
-    beginPrompt();
-    })
+
+        // Display results using console.table
+        console.table('All Employees', employees);
+
+        // Restart prompts after completion
+        beginPrompt();
+    });
 }
 //function to add a department
 function addDepartment () {
