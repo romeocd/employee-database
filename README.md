@@ -42,3 +42,6 @@
 
   ## Video Demonstration
   ### https://drive.google.com/file/d/1nmCpuoPBzJ7SFe63PRz7Y2l7rSF7YB5s/view
+
+  ## Screenshot
+  ![ViewAllEmployees](./assets/employees.png)
